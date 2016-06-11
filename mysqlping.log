@@ -1,0 +1,6 @@
+﻿
+检查网络:2016/06/09 16:13:49 dial tcp 192.168.1.105:33061: connectex: No connection could be made because the target machine actively refused it.
+
+检查网络:2016/06/09 16:14:02 dial tcp 192.168.1.105:33061: connectex: No connection could be made because the target machine actively refused it.
+
+检查网络:2016/06/09 17:25:33 dial tcp 10.2.0.55:3306: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.
