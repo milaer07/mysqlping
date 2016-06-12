@@ -26,23 +26,24 @@ func dbconn() {
      defer db.Close()
 	err=db.Ping()
 	CheckErr(err)
-    rows, err := db.Query("select * from devices_list")  //查询表格
+    rows, err := db.Query("select * from zhgb_device_stat")  //查询表格
     CheckErr(err)
 	defer rows.Close()  //退出后关闭rows
-	updateMoney, err := db.Prepare("UPDATE devices_list SET flag_ip=?,flag_m_time=? WHERE device_id=?")          //Prepare创建一个准备好的状态用于之后的查询和命令。返回值可以同时执行多个查询和命令。
+	updateMoney, err := db.Prepare("UPDATE zhgb_device_stat SET flag_ip=?,flag_m_time=? WHERE ip_address=?")          //Prepare创建一个准备好的状态用于之后的查询和命令。返回值可以同时执行多个查询和命令。
     CheckErr(err) 
 	//循环导出查询语句
 		for rows.Next() {
-        var line_id string
-        var station string
-		var device_id string
-		var device_ip string
+//       var line_id string
+//        var station string
+//		var device_id string
+		var ip_address string
 		var flag_ip int
 		var flag_m_time []uint8
-        err = rows.Scan(&line_id, &station,&device_id,&device_ip,&flag_ip,&flag_m_time)                      //复制查询语句
+//      err = rows.Scan(&line_id, &station,&device_id,&device_ip,&flag_ip,&flag_m_time)                      //复制查询语句
+		err = rows.Scan(&ip_address,&flag_ip,&flag_m_time)   
         CheckErr(err)
-		errip := goping(device_ip)           //运行网络查找
-		res, err := updateMoney.Exec(errip,time.Now(),device_id)  //返回值进行数据修改
+		errip := goping(ip_address)           //运行网络查找
+		res, err := updateMoney.Exec(errip,time.Now(),ip_address)  //返回值进行数据修改
 		 CheckErr(err)
 		_, err = res.RowsAffected()   //_原来名为affect,查询执行的次数
 		CheckErr(err)
